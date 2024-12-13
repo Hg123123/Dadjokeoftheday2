@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dad Joke of the Day</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            color: #333;
+            margin-top: 20px;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+            width: 80%;
+            max-width: 400px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        canvas {
+            border: 1px solid #000;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dad Joke of the Day</h1>
+    <form id="jokeForm">
+        <input type="text" id="joke" placeholder="Enter your dad joke (e.g., Why did the chicken?)" required><br>
+        <input type="text" id="answer" placeholder="Enter the punchline (e.g., To get to the other side!)" required><br>
+        <button type="submit">Generate Joke Image</button>
+    </form>
+
+    <canvas id="jokeCanvas" width="800" height="400"></canvas>
+
+    <script>
+        const form = document.getElementById('jokeForm');
+        const canvas = document.getElementById('jokeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Array of random image URLs
+        const images = [
+            'https://via.placeholder.com/800x400/FF5733/FFFFFF?text=Random+Image+1',
+            'https://via.placeholder.com/800x400/33FF57/FFFFFF?text=Random+Image+2',
+            'https://via.placeholder.com/800x400/3357FF/FFFFFF?text=Random+Image+3',
+            'https://via.placeholder.com/800x400/FF33A1/FFFFFF?text=Random+Image+4',
+            'https://via.placeholder.com/800x400/FFFF33/000000?text=Random+Image+5'
+        ];
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Get the user's joke and punchline
+            const joke = document.getElementById('joke').value;
+            const answer = document.getElementById('answer').value;
+
+            // Choose a random image URL
+            const randomImage = images[Math.floor(Math.random() * images.length)];
+            const img = new Image();
+
+            // Set up the onload function
+            img.onload = () => {
+                // Draw the random image
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                // Draw the joke text
+                ctx.fillStyle = '#000'; // Black text
+                ctx.font = '24px Arial';
+                ctx.textAlign = 'center';
+                ctx.fillText('Dad Joke of the Day', canvas.width / 2, 50);
+                ctx.fillText(joke, canvas.width / 2, 150);
+                ctx.fillText(`Answer: ${answer}`, canvas.width / 2, 250);
+            };
+
+            img.src = randomImage;
+        });
+    </script>
+</body>
+</html>
